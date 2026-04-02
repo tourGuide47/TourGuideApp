@@ -1,0 +1,12 @@
+{
+  "name": "tourguide-ghardaia-app-root",
+  "version": "1.0.0",
+  "description": "Root management for TourGuide Ghardaia App and Backend",
+  "scripts": {
+    "server-start": "cd server && npm start",
+    "server-seed": "cd server && node database/seed.js",
+    "server-install": "cd server && npm install",
+    "restore-data": "cd server && node sync_live_data.js && npm start",
+    "web-dev": "python -m http.server 8000 --directory assets/www"
+  }
+}

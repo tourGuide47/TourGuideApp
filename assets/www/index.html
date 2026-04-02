@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TourGuide Ghardaia - دليلك السياحي لاستكشاف معالم وادي ميزاب، فنادق، مطاعم وأماكن سياحية في غرداية">
+  <title>TourGuide Ghardaia | دليل السياحة في غرداية</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">
+        <div class="logo-icon">🏛️</div>
+        <span>TourGuide <strong>Ghardaia</strong></span>
+      </a>
+      <div class="navbar-links" id="nav-links">
+        <a href="index.html" class="active">🏠 الرئيسية</a>
+        <a href="trips.html">🗺️ رحلاتي</a>
+        <a href="favorites.html">❤️ المفضلة</a>
+        <a href="notifications.html">🔔 الإشعارات <span class="badge" id="notif-badge" style="display:none">0</span></a>
+      </div>
+      <div class="navbar-auth" id="navbar-auth" style="position:relative;"></div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content container">
+      <div class="hero-text">
+        <div class="hero-badge">🌍 موقع تراث عالمي لليونسكو</div>
+        <h1 data-i18n="hero_title">اكتشف جمال <span>غرداية</span></h1>
+        <p data-i18n="hero_subtitle">استكشف وادي ميزاب الساحر، مدنه الخمس التاريخية، معالمه الفريدة، فنادقه المريحة ومطاعمه التقليدية الأصيلة</p>
+        <div class="hero-search">
+          <input type="text" id="hero-search-input" data-i18n="search_placeholder" placeholder="ابحث عن مكان، فندق، مطعم...">
+          <button class="btn btn-primary" onclick="searchPlaces()">🔍 ابحث</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="number" id="stat-places">14</div><div class="label">مكان سياحي</div></div>
+          <div class="hero-stat"><div class="number" id="stat-hotels">4</div><div class="label">فندق</div></div>
+          <div class="hero-stat"><div class="number" id="stat-restaurants">3</div><div class="label">مطعم</div></div>
+          <div class="hero-stat"><div class="number" id="stat-transport">9</div><div class="label">محطة نقل</div></div>
+        </div>
+      </div>
+      <div class="hero-image-container">
+        <div class="hero-image-frame">
+          <img src="hero-aerial.png" alt="Ghardaia Aerial View" class="hero-img">
+          <div class="hero-img-overlay"></div>
+        </div>
+        <div class="hero-floating-badge top-right">📸 360° View</div>
+        <div class="hero-floating-badge bottom-left">📍 M'zab Valley</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Moving Text Banner -->
+  <div class="moving-text-banner">
+    <div class="moving-text-content">
+      <div class="moving-text-item">🏜️ اكتشف القصور التاريخية</div>
+      <div class="moving-text-item">🐫 استمتع بجمال الصحراء</div>
+      <div class="moving-text-item">🕌 تعرف على ثقافة غرداية</div>
+      <div class="moving-text-item">✨ مرحباً بك في دليل غرداية السياحي</div>
+      <div class="moving-text-item">🏜️ اكتشف أجمل الأماكن السياحية</div>
+      <div class="moving-text-item">🏨 أفضل الفنادق والمطاعم في غرداية</div>
+      <div class="moving-text-item">🌟 تجربة سياحية لا تُنسى</div>
+      <!-- Repeat for seamless loop -->
+      <div class="moving-text-item">🏜️ اكتشف القصور التاريخية</div>
+      <div class="moving-text-item">🐫 استمتع بجمال الصحراء</div>
+      <div class="moving-text-item">🕌 تعرف على ثقافة غرداية</div>
+      <div class="moving-text-item">✨ مرحباً بك في دليل غرداية السياحي</div>
+      <div class="moving-text-item">🏜️ اكتشف أجمل الأماكن السياحية</div>
+      <div class="moving-text-item">🏨 أفضل الفنادق والمطاعم في غرداية</div>
+      <div class="moving-text-item">🌟 تجربة سياحية لا تُنسى</div>
+    </div>
+  </div>
+
+  <!-- Categories & Places -->
+  <section class="section" id="places-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="animated-title">استكشف أماكن غرداية</h2>
+        <p class="animated-subtitle">اكتشف أجمل المعالم والفنادق والمطاعم في وادي ميزاب التاريخي</p>
+        <div class="accent-line"></div>
+      </div>
+      <div class="categories-filter" id="categories-filter"></div>
+      <div class="places-grid" id="places-grid"></div>
+    </div>
+  </section>
+
+  <!-- Travel Tip Section -->
+  <section class="travel-tip-section">
+    <div class="container">
+      <div class="travel-tip-box">
+        <div class="travel-tip-icon">💡</div>
+        <div class="travel-tip-content">
+          <h3>نصيحة للمسافر</h3>
+          <p>للحصول على أفضل تجربة في قصور غرداية العتيقة، يُنصح بزيارتها في الصباح الباكر أو قبل الغروب للاستمتاع بانعكاس أشعة الشمس الذهبية على العمارة الميزابية الفريدة.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="section map-section" id="map-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>📍 خريطة المعالم</h2>
+        <p>شاهد جميع الأماكن على الخريطة التفاعلية</p>
+        <div class="accent-line"></div>
+      </div>
+      <div id="map-container"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>🏛️ TourGuide Ghardaia</h3>
+          <p>دليلك السياحي الشامل لاستكشاف مدينة غرداية ووادي ميزاب. اكتشف المعالم التاريخية، الفنادق المريحة، والمطاعم التقليدية الأصيلة.</p>
+        </div>
+        <div>
+          <h4>روابط سريعة</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="trips.html">رحلاتي</a></li>
+            <li><a href="favorites.html">المفضلة</a></li>
+            <li><a href="notifications.html">الإشعارات</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>الفئات</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="filterCategory('landmark')">معالم سياحية</a></li>
+            <li><a href="#" onclick="filterCategory('hotel')">فنادق</a></li>
+            <li><a href="#" onclick="filterCategory('restaurant')">مطاعم</a></li>
+            <li><a href="#" onclick="filterCategory('transport')">محطات نقل</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>تواصل معنا</h4>
+          <ul class="footer-links">
+            <li><a href="#">📧 info@tourguide-ghardaia.dz</a></li>
+            <li><a href="#">📞 +213 29 88 00 00</a></li>
+            <li><a href="#">📍 غرداية، الجزائر</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 TourGuide Ghardaia. جميع الحقوق محفوظة.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/places.js"></script>
+  <script src="js/map.js"></script>
+</body>
+</html>

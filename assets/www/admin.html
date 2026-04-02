@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم | TourGuide Ghardaia</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar"><div class="container">
+    <a href="index.html" class="navbar-brand"><div class="logo-icon">🏛️</div><span>TourGuide <strong>Ghardaia</strong></span></a>
+    <div class="navbar-links" id="nav-links"><a href="index.html">🏠 الموقع</a></div>
+    <div class="navbar-auth" id="navbar-auth" style="position:relative;">
+      <span id="admin-name" style="color:var(--text-secondary);font-size:0.9rem;"></span>
+      <button class="btn btn-sm btn-ghost" onclick="adminLogout()">🚪 خروج</button>
+    </div>
+  </div></nav>
+
+  <!-- Admin Login -->
+  <div class="auth-page" id="admin-login-page">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-icon">🔐</div>
+        <h1>لوحة التحكم</h1>
+        <p class="subtitle">دخول مخصص للمسؤولين</p>
+      </div>
+      <form onsubmit="adminLogin(event)">
+        <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="admin-email" class="form-control" value="admin@tourguide.dz"></div>
+        <div class="form-group"><label>كلمة المرور</label><input type="password" id="admin-pass" class="form-control" value="admin123"></div>
+        <div id="admin-error" class="form-error" style="display:none;margin-bottom:12px;"></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">🔓 دخول</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div class="admin-layout" id="admin-dashboard" style="display:none;">
+    <aside class="admin-sidebar">
+      <div class="sidebar-item active" onclick="showTab('stats')">📊 الإحصائيات</div>
+      <div class="sidebar-item" onclick="showTab('places')">📍 الأماكن</div>
+      <div class="sidebar-item" onclick="showTab('users')">👥 المستخدمين</div>
+      <div class="sidebar-item" onclick="showTab('reviews')">⭐ المراجعات</div>
+      <div class="sidebar-item" onclick="showTab('notifs')">🔔 الإشعارات</div>
+      <div class="sidebar-item" onclick="showTab('logs')">📋 سجل النشاطات</div>
+    </aside>
+    <main class="admin-content" id="admin-content"></main>
+  </div>
+
+  <!-- Add/Edit Place Modal -->
+  <div class="modal-overlay" id="place-modal">
+    <div class="modal">
+      <h2 id="place-modal-title">إضافة مكان جديد</h2>
+      <input type="hidden" id="edit-place-id">
+      <div class="form-group"><label>الاسم (إنجليزي)</label><input type="text" id="p-name" class="form-control"></div>
+      <div class="form-group"><label>الاسم (عربي)</label><input type="text" id="p-name-ar" class="form-control"></div>
+      <div class="form-group"><label>الفئة</label>
+        <select id="p-category" class="form-control"><option value="landmark">معلم</option><option value="hotel">فندق</option><option value="restaurant">مطعم</option><option value="mosque">مسجد</option><option value="market">سوق</option></select>
+      </div>
+      <div class="form-group"><label>الوصف (عربي)</label><textarea id="p-desc-ar" class="form-control" rows="3"></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group"><label>خط العرض</label><input type="number" step="any" id="p-lat" class="form-control"></div>
+        <div class="form-group"><label>خط الطول</label><input type="number" step="any" id="p-lng" class="form-control"></div>
+      </div>
+      <div class="form-group"><label>العنوان</label><input type="text" id="p-address" class="form-control"></div>
+      <div class="form-group"><label>الهاتف</label><input type="text" id="p-phone" class="form-control"></div>
+      <div class="form-group"><label>رابط الصورة</label><input type="text" id="p-image" class="form-control"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group"><label>السعر</label><input type="text" id="p-price" class="form-control" placeholder="$, $$, $$$"></div>
+        <div class="form-group"><label>أوقات العمل</label><input type="text" id="p-hours" class="form-control"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closePlaceModal()">إلغاء</button>
+        <button class="btn btn-primary" onclick="savePlace()">💾 حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Send Notification Modal -->
+  <div class="modal-overlay" id="notif-modal">
+    <div class="modal">
+      <h2>📢 إرسال إشعار</h2>
+      <div class="form-group"><label>العنوان</label><input type="text" id="n-title" class="form-control" placeholder="عنوان الإشعار"></div>
+      <div class="form-group"><label>الرسالة</label><textarea id="n-message" class="form-control" rows="3" placeholder="نص الإشعار..."></textarea></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="document.getElementById('notif-modal').classList.remove('active')">إلغاء</button>
+        <button class="btn btn-primary" onclick="sendNotification()">📤 إرسال</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

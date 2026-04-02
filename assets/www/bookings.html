@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حجوزاتي | TourGuide Ghardaia</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">
+        <div class="logo-icon">🏛️</div>
+        <span>TourGuide <strong>Ghardaia</strong></span>
+      </a>
+      <div class="navbar-links" id="nav-links">
+        <!-- Injected by app.js -->
+      </div>
+      <div class="navbar-auth" id="navbar-auth" style="position:relative;"></div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+  </nav>
+
+  <main class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>📅 حجوزاتي</h2>
+        <p>إدارة كافة حجوزاتك للفنادق والمطاعم</p>
+        <div class="accent-line"></div>
+      </div>
+      
+      <div id="bookings-container" class="places-grid">
+        <div class="loader"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2024 TourGuide Ghardaia. جميع الحقوق محفوظة.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/bookings.js"></script>
+</body>
+</html>
